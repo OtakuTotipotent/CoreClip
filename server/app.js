@@ -5,6 +5,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 
 app.set("trust proxy", 1);
@@ -41,6 +43,8 @@ app.get("/api/health", (req, res) => {
     message: "CoreClip API is running",
   });
 });
+
+app.use("/api/auth", authRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
