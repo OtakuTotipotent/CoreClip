@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 
 import MainLayout from "./layouts/MainLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import HomePage from "./pages/HomePage";
 import CreatePage from "./pages/CreatePage";
@@ -17,24 +18,32 @@ const router = createBrowserRouter([
         path: "/",
         element: <HomePage />,
       },
+
       {
-        path: "/create",
-        element: <CreatePage />,
-      },
-      {
-        path: "/community",
-        element: <CommunityPage />,
-      },
-      {
-        path: "/profile",
-        element: <ProfilePage />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/create",
+            element: <CreatePage />,
+          },
+          {
+            path: "/community",
+            element: <CommunityPage />,
+          },
+          {
+            path: "/profile",
+            element: <ProfilePage />,
+          },
+        ],
       },
     ],
   },
+
   {
     path: "/login",
     element: <LoginPage />,
   },
+
   {
     path: "/register",
     element: <RegisterPage />,

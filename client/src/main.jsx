@@ -3,12 +3,16 @@ import { createRoot } from "react-dom/client";
 import { Toaster } from "sonner";
 
 import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
+
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
 
-    <Toaster position="top-right" richColors closeButton />
+      <Toaster position="top-right" richColors closeButton />
+    </AuthProvider>
   </StrictMode>,
 );
