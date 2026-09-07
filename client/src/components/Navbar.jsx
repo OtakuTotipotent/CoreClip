@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router";
-import { LogOut, Sparkles, UserRound } from "lucide-react";
+import { LogOut, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAuth } from "../context/AuthContext";
@@ -86,7 +86,17 @@ const Navbar = () => {
                 to="/profile"
                 className="hidden items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition hover:bg-(--surface-secondary) sm:flex"
               >
-                <UserRound size={17} />
+                {user?.profileImage ? (
+                  <img
+                    src={user.profileImage}
+                    alt={user.name}
+                    className="h-6 w-6 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-(--primary-soft) text-[10px] font-semibold text-(--primary)">
+                    {user?.name?.charAt(0)?.toUpperCase()}
+                  </div>
+                )}
 
                 <span className="max-w-24 truncate">{user?.name}</span>
               </Link>

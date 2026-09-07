@@ -29,7 +29,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    fetchCurrentUser();
+    const timeoutId = setTimeout(() => {
+      fetchCurrentUser();
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
   }, [fetchCurrentUser]);
 
   const register = async (name, email, password) => {
@@ -61,6 +65,17 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateProfile = async (name, email) => {
+    const response = await api.patch("/users/profile", {
+      name,
+      email,
+    });
+
+    setUser(response.data.user);
+
+    return response.data;
+  };
+
   const value = {
     user,
     loading,
@@ -68,12 +83,15 @@ export const AuthProvider = ({ children }) => {
     register,
     login,
     logout,
+    updateProfile,
     fetchCurrentUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
+// This hook is intentionally exported alongside the provider from this context module.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
 
