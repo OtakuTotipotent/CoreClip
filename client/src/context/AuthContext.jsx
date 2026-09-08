@@ -76,6 +76,16 @@ export const AuthProvider = ({ children }) => {
     return response.data;
   };
 
+  const updateProfileImage = async (image) => {
+    const response = await api.patch("/users/profile-image", {
+      image,
+    });
+
+    setUser(response.data.user);
+
+    return response.data;
+  };
+
   const value = {
     user,
     loading,
@@ -84,6 +94,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     updateProfile,
+    updateProfileImage,
     fetchCurrentUser,
   };
 

@@ -4,6 +4,7 @@ import {
   Check,
   Crown,
   Loader2,
+  LoaderCircle,
   LogOut,
   Mail,
   UserRound,
@@ -16,12 +17,13 @@ import { useAuth } from "../context/AuthContext";
 const ProfilePageContent = () => {
   const navigate = useNavigate();
 
-  const { user, updateProfile, logout } = useAuth();
+  const { user, updateProfile, updateProfileImage, logout } = useAuth();
 
   const [form, setForm] = useState({
     name: user?.name || "",
     email: user?.email || "",
   });
+  const [imageUploading, setImageUploading] = useState(false);
 
   const [saving, setSaving] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -33,6 +35,66 @@ const ProfilePageContent = () => {
       ...current,
       [name]: value,
     }));
+  };
+
+  const handleProfileImageChange = async (event) => {
+    const file = event.target.files?.[0];
+
+    event.target.value = "";
+
+    if (!file) {
+      return;
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Only JPG, PNG and WebP images are supported");
+
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Profile image must be 5 MB or smaller");
+
+      return;
+    }
+
+    try {
+      setImageUploading(true);
+
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        try {
+          const result = reader.result;
+
+          await updateProfileImage(result);
+
+          toast.success("Profile image updated successfully");
+        } catch (error) {
+          toast.error(
+            error.response?.data?.message || "Unable to update profile image",
+          );
+        } finally {
+          setImageUploading(false);
+        }
+      };
+
+      reader.onerror = () => {
+        setImageUploading(false);
+
+        toast.error("Unable to read the selected image");
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      setImageUploading(false);
+
+      toast.error(
+        error.response?.data?.message || "Unable to update profile image",
+      );
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -113,14 +175,25 @@ const ProfilePageContent = () => {
                   )}
                 </div>
 
-                <button
-                  type="button"
-                  disabled
-                  title="Profile image upload will be enabled with Cloudinary"
-                  className="absolute -bottom-2 -right-2 flex h-8 w-8 cursor-not-allowed items-center justify-center rounded-full border border-(--border) bg-(--surface) text-(--muted) shadow-sm"
+                <label
+                  className={`absolute bottom-0 right-0 flex h-10 w-10 items-center justify-center rounded-full border-2 border-(--surface) bg-(--primary) text-white shadow-sm transition hover:bg-(--primary-hover) ${
+                    imageUploading ? "pointer-events-none opacity-70" : ""
+                  }`}
                 >
-                  <Camera size={15} />
-                </button>
+                  {imageUploading ? (
+                    <LoaderCircle size={17} className="animate-spin" />
+                  ) : (
+                    <Camera size={17} />
+                  )}
+
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={handleProfileImageChange}
+                    disabled={imageUploading}
+                    className="hidden"
+                  />
+                </label>
               </div>
 
               <div>

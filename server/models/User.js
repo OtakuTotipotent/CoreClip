@@ -30,6 +30,11 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
 
+    profileImagePublicId: {
+      type: String,
+      default: "",
+    },
+
     plan: {
       type: String,
       enum: ["free", "pro"],
