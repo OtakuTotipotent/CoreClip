@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const adRoutes = require("./routes/adRoutes");
 
 const app = express();
 
@@ -21,8 +22,8 @@ app.use(
   }),
 );
 
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.json({ limit: "15mb" }));
+app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === "development") {
@@ -47,6 +48,7 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/ads", adRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
