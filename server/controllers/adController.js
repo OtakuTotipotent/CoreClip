@@ -218,7 +218,7 @@ const updatePrivacy = async (req, res) => {
         privacy,
       },
       {
-        new: true,
+        returnDocument: "after",
       },
     ).populate("user", "name email profileImage");
 
