@@ -141,6 +141,7 @@ const getCommunityAds = async (req, res) => {
     const ads = await Ad.find({
       privacy: "public",
     })
+      .select("title prompt aspectRatio generatedImage user privacy createdAt")
       .populate("user", "name profileImage")
       .sort({
         createdAt: -1,
