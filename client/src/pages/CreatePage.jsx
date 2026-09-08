@@ -205,7 +205,7 @@ const CreatePage = () => {
   };
 
   const copyAdUrl = async (adId) => {
-    const url = `${window.location.origin}/community#${adId}`;
+    const url = `${window.location.origin}/ad/${adId}`;
 
     try {
       await navigator.clipboard.writeText(url);
