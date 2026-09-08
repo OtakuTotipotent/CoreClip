@@ -39,6 +39,17 @@ const aspectRatios = [
   },
 ];
 
+const getAspectClass = (aspectRatio) => {
+  const classes = {
+    "1:1": "aspect-square",
+    "4:5": "aspect-[4/5]",
+    "16:9": "aspect-video",
+    "9:16": "aspect-[9/16]",
+  };
+
+  return classes[aspectRatio] || "aspect-square";
+};
+
 const CreatePage = () => {
   const fileInputRef = useRef(null);
 
@@ -233,8 +244,8 @@ const CreatePage = () => {
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[420px_1fr]">
-          <section className="h-fit rounded-3xl border border-(--border) bg-(--surface) p-5 shadow-(--shadow) sm:p-6">
+        <div className="grid gap-8 lg:grid-cols-[400px_minmax(0,1fr)] xl:grid-cols-[420px_minmax(0,1fr)]">
+          <section className="h-fit rounded-3xl border border-(--border) bg-(--surface) p-5 shadow-(--shadow) lg:sticky lg:top-24 sm:p-6">
             <div className="mb-6">
               <h2 className="text-lg font-semibold">New advertisement</h2>
 
@@ -388,7 +399,7 @@ const CreatePage = () => {
                 {generating ? (
                   <>
                     <LoaderCircle size={18} className="animate-spin" />
-                    Generating...
+                    Creating your advertisement...
                   </>
                 ) : (
                   <>
@@ -397,6 +408,13 @@ const CreatePage = () => {
                   </>
                 )}
               </button>
+
+              {generating && (
+                <p className="text-center text-xs leading-5 text-(--muted)">
+                  AI generation can take a little while. Please keep this page
+                  open while your advertisement is being created.
+                </p>
+              )}
             </form>
           </section>
 
@@ -453,7 +471,9 @@ const CreatePage = () => {
                       <img
                         src={ad.generatedImage}
                         alt={ad.title}
-                        className="aspect-square w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                        className={`w-full object-cover transition duration-500 group-hover:scale-[1.02] ${getAspectClass(
+                          ad.aspectRatio,
+                        )}`}
                       />
 
                       <div className="absolute left-3 top-3 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur">

@@ -123,11 +123,11 @@ const AdPage = () => {
         </Link>
 
         <div className="grid overflow-hidden rounded-3xl border border-(--border) bg-(--surface) shadow-(--shadow) lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="bg-(--surface-secondary)">
+          <div className="flex min-h-80 items-center justify-center bg-(--surface-secondary) p-4 sm:p-6 lg:min-h-full">
             <img
               src={ad.generatedImage}
               alt={ad.title}
-              className="h-full max-h-190 w-full object-contain"
+              className="max-h-[75vh] w-full object-contain"
             />
           </div>
 
@@ -142,9 +142,34 @@ const AdPage = () => {
                 {ad.title}
               </h1>
 
-              <p className="mt-3 text-sm leading-6 text-(--muted)">
-                Created by {ad.user?.name || "CoreClip user"}
-              </p>
+              <div className="mt-4 flex items-center gap-3">
+                {ad.user?.profileImage ? (
+                  <img
+                    src={ad.user.profileImage}
+                    alt={ad.user.name}
+                    className="h-9 w-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-(--primary-soft) text-xs font-semibold text-(--primary)">
+                    {(ad.user?.name || "CU")
+                      .split(" ")
+                      .map((part) => part[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toUpperCase()}
+                  </div>
+                )}
+
+                <div>
+                  <p className="text-sm font-medium">
+                    {ad.user?.name || "CoreClip user"}
+                  </p>
+
+                  <p className="text-xs text-(--muted)">
+                    Advertisement creator
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-5">
@@ -175,7 +200,7 @@ const AdPage = () => {
               </div>
             </div>
 
-            <div className="mt-auto flex flex-col gap-3 pt-8 sm:flex-row">
+            <div className="mt-auto grid gap-3 pt-8 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={handleDownload}

@@ -147,7 +147,7 @@ const ProfilePageContent = () => {
       .join("") || "CC";
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-10 sm:py-14">
+    <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-14">
       <div className="mb-10">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Profile
@@ -161,7 +161,7 @@ const ProfilePageContent = () => {
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <section className="space-y-6">
           <div className="rounded-2xl border border-(--border) bg-(--surface) p-6 shadow-(--shadow) sm:p-8">
-            <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center">
+            <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
               <div className="relative w-fit">
                 <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-(--primary-soft) text-2xl font-semibold text-(--primary)">
                   {user?.profileImage ? (
@@ -272,11 +272,11 @@ const ProfilePageContent = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end pt-2">
+              <div className="flex pt-2 sm:justify-end">
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center justify-center gap-2 rounded-xl bg-(--primary) px-5 py-3 text-sm font-medium text-white transition hover:bg-(--primary-hover) disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-(--primary) px-5 py-3 text-sm font-medium text-white transition hover:bg-(--primary-hover) disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                 >
                   {saving ? (
                     <Loader2 size={17} className="animate-spin" />
